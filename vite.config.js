@@ -8,7 +8,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+       // target: 'http://localhost:3000',
+         target: 'https://96x68qyku7.execute-api.ap-south-1.amazonaws.com/',
         changeOrigin: true,
       },
     },
