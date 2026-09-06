@@ -1,0 +1,174 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #f2eee6;
+  --color-ink-soft: #d8d2c6;
+  --color-mute: #9a9488;
+  --color-mute-light: #6f6a60;
+  --color-cream: #0c0b0a;
+  --color-cream-deep: #1a1916;
+  --color-paper: #151412;
+  --color-line: #2a2824;
+  --color-sage: #24332a;
+  --color-sage-deep: #8fb89a;
+  --color-live: #6dba8a;
+  --color-gold: #b9914f;
+  --color-gold-bright: #e2c07a;
+  --color-midnight: #101727;
+  --color-accent: #f2eee6;
+  --shadow-premium: 0 34px 90px -52px rgba(0, 0, 0, 0.9);
+  --shadow-premium-soft: 0 24px 55px -42px rgba(0, 0, 0, 0.78);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-cream);
+  }
+}
+
+@layer components {
+  .premium-input {
+    margin-top: 0.5rem;
+    width: 100%;
+    border-radius: 0.875rem;
+    border: 1px solid color-mix(in srgb, var(--color-line) 92%, white);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
+      var(--color-cream-deep);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: var(--color-ink);
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .premium-input::placeholder {
+    color: var(--color-mute-light);
+  }
+
+  .premium-input:focus {
+    border-color: color-mix(in srgb, var(--color-gold) 65%, white);
+    box-shadow: 0 0 0 3px rgba(185, 145, 79, 0.16);
+  }
+}
+
+.premium-backdrop {
+  background:
+    radial-gradient(ellipse 60% 36% at 10% -10%, rgba(109, 186, 138, 0.25), transparent 58%),
+    radial-gradient(ellipse 42% 34% at 92% 6%, rgba(185, 145, 79, 0.24), transparent 52%),
+    radial-gradient(ellipse 54% 44% at 50% 118%, rgba(16, 23, 39, 0.72), transparent 58%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 22%);
+}
+
+.admin-panel,
+.section-tile,
+.opportunity-card {
+  position: relative;
+}
+
+.admin-panel::before,
+.section-tile::before,
+.opportunity-card::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: '';
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 34%);
+  opacity: 0.75;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes draw-in {
+  from {
+    opacity: 0;
+    letter-spacing: 0.28em;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.16em;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-draw-in {
+  animation: draw-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.live-dot {
+  animation: soft-pulse 2.2s ease-in-out infinite;
+}
+
+.opportunity-card {
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease,
+    border-color 0.35s ease,
+    background 0.35s ease;
+}
+
+.opportunity-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--color-gold) 42%, var(--color-line));
+  background: #1a1916;
+  box-shadow: 0 34px 74px -42px rgba(0, 0, 0, 0.9);
+}
+
+.opportunity-card:hover .card-arrow {
+  background: var(--color-ink);
+  color: var(--color-cream);
+  border-color: var(--color-ink);
+  transform: translateX(2px);
+}
+
+.opportunity-card .card-arrow.is-open {
+  background: var(--color-ink);
+  color: var(--color-cream);
+  border-color: var(--color-ink);
+  transform: rotate(90deg);
+}
+
+.opportunity-card:hover .card-arrow.is-open {
+  transform: rotate(90deg) translateX(2px);
+}
+
+.card-arrow {
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
