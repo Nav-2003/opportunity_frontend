@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
+const API_URL = import.meta.env.VITE_API_URL
 const AUTH_EXPIRED_EVENT = 'auth:expired'
 
 function clearStoredAuthSession() {
@@ -18,7 +18,7 @@ function redirectToSignIn(message) {
 
 async function request(path, options = {}) {
   const token = localStorage.getItem('accessToken')
-  const response = await fetch(`${API_BASE}${path}`, {
+  const response = await fetch(`${API_URL}${path}`, {
     headers: {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
