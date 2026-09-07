@@ -118,6 +118,16 @@ function serializePost(post) {
   }
 }
 
+function getSavedPost(data, fallbackPost) {
+  const savedPost = data?.post ?? data?.data ?? data
+
+  if (savedPost && typeof savedPost === 'object' && !Array.isArray(savedPost)) {
+    return normalizePost(savedPost)
+  }
+
+  return fallbackPost
+}
+
 export async function fetchPosts() {
   const data = await request('/fetchPost/retrivePost')
   return (data.posts ?? []).map(normalizePost)
@@ -128,7 +138,7 @@ export async function createPost(post) {
     method: 'PUT',
     body: JSON.stringify(serializePost(post)),
   })
-  return normalizePost(data.post)
+  return getSavedPost(data, post)
 }
 
 export async function editPost(id, post) {
@@ -136,7 +146,7 @@ export async function editPost(id, post) {
     method: 'PUT',
     body: JSON.stringify(serializePost(post)),
   })
-  return normalizePost(data.post)
+  return getSavedPost(data, { ...post, id })
 }
 
 export async function deletePost(id) {
