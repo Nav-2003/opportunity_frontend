@@ -69,20 +69,28 @@ export async function refreshAccessToken(refreshToken) {
 const ACCESS_TOKEN_KEY = 'accessToken'
 const REFRESH_TOKEN_KEY = 'refreshToken'
 const USER_KEY = 'authUser'
+const AUTH_API_URL_KEY = 'authApiUrl'
 
 export function saveAuthSession(accessToken, refreshToken, user) {
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
   localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
   localStorage.setItem(USER_KEY, JSON.stringify(user))
+  localStorage.setItem(AUTH_API_URL_KEY, API_URL)
 }
 
 export function clearAuthSession() {
   localStorage.removeItem(ACCESS_TOKEN_KEY)
   localStorage.removeItem(REFRESH_TOKEN_KEY)
   localStorage.removeItem(USER_KEY)
+  localStorage.removeItem(AUTH_API_URL_KEY)
 }
 
 export function getStoredUser() {
+  if (localStorage.getItem(AUTH_API_URL_KEY) !== API_URL) {
+    clearAuthSession()
+    return null
+  }
+
   const raw = localStorage.getItem(USER_KEY)
   if (!raw) return null
   try {

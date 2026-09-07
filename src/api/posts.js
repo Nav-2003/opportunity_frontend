@@ -5,6 +5,7 @@ function clearStoredAuthSession() {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
   localStorage.removeItem('authUser')
+  localStorage.removeItem('authApiUrl')
 }
 
 function redirectToSignIn(message) {
@@ -18,6 +19,11 @@ function redirectToSignIn(message) {
 
 async function request(path, options = {}) {
   const token = localStorage.getItem('accessToken')
+
+  if (!API_URL) {
+    throw new Error('The API URL is not configured. Set VITE_API_URL and restart the frontend.')
+  }
+
   const response = await fetch(`${API_URL}${path}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -39,7 +45,9 @@ async function request(path, options = {}) {
     if (response.status === 401) {
       redirectToSignIn(message)
     }
-    throw new Error(message)
+    const error = new Error(`Request failed (${response.status}): ${message}`)
+    error.status = response.status
+    throw error
   }
 
   return data
@@ -76,7 +84,12 @@ function normalizePost(post) {
       post.statusLabel ??
       '',
     batch: post.batch ?? post.batchYear ?? '',
-    select: post.select ?? post.selected ?? post.selectedCandidates ?? '',
+    select:
+      post.select ??
+      post.selected ??
+      post.selectedCandidates ??
+      post.placedStudent ??
+      '',
     ctc: post.expectedCTC ?? post.ctc ?? '',
     applicationLink:
       post.applicationLink ??
@@ -101,14 +114,19 @@ function normalizePost(post) {
 }
 
 function serializePost(post) {
+  const batch = Number(post.batch)
+  const placedStudent = Number(post.select)
+
   return {
     roleTitle: post.title,
     company: post.company,
     section: post.status,
     eligibilityCriteria: post.eligibilityCriteria,
     statusLabel: post.eligibilityCriteria,
-    batch: post.batch,
-    select: post.select,
+    ...(Number.isFinite(batch) && post.batch !== '' ? { batch } : {}),
+    ...(Number.isFinite(placedStudent) && post.select !== ''
+      ? { placedStudent }
+      : {}),
     driveDate: post.dateLabel,
     expectedCTC: post.ctc,
     applicationLink: post.applicationLink,
@@ -122,7 +140,10 @@ function getSavedPost(data, fallbackPost) {
   const savedPost = data?.post ?? data?.data ?? data
 
   if (savedPost && typeof savedPost === 'object' && !Array.isArray(savedPost)) {
-    return normalizePost(savedPost)
+    const normalizedPost = normalizePost(savedPost)
+    return normalizedPost.id
+      ? normalizedPost
+      : { ...fallbackPost, ...normalizedPost, id: fallbackPost.id }
   }
 
   return fallbackPost
@@ -142,11 +163,17 @@ export async function createPost(post) {
 }
 
 export async function editPost(id, post) {
-  const data = await request(`/adminEditPost/editPost/${id}`, {
+  const postId = id ?? post.id
+
+  if (!postId) {
+    throw new Error('Cannot update this drive because its post ID is missing.')
+  }
+
+  const data = await request(`/adminEditPost/editPost/${encodeURIComponent(postId)}`, {
     method: 'PUT',
     body: JSON.stringify(serializePost(post)),
   })
-  return getSavedPost(data, { ...post, id })
+  return getSavedPost(data, { ...post, id: postId })
 }
 
 export async function deletePost(id) {

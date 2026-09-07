@@ -190,8 +190,8 @@ export default function OpportunityDashboard({ user, onLogout }) {
       dateLabel: opportunity.dateLabel,
       status: opportunity.status,
       eligibilityCriteria: opportunity.eligibilityCriteria ?? '',
-      batch: opportunity.batch ?? '',
-      select: opportunity.select ?? '',
+      batch: opportunity.batch == null ? '' : String(opportunity.batch),
+      select: opportunity.select == null ? '' : String(opportunity.select),
       ctc: opportunity.ctc,
       applicationLink: opportunity.applicationLink ?? '',
       jdGoogleDriveLink: opportunity.jdGoogleDriveLink ?? '',
@@ -211,9 +211,13 @@ export default function OpportunityDashboard({ user, onLogout }) {
       !driveForm.title.trim() ||
       !driveForm.company.trim() ||
       !driveForm.dateLabel.trim() ||
-      !driveForm.ctc.trim()
+      !driveForm.ctc.trim() ||
+      !driveForm.eligibilityCriteria.trim() ||
+      !driveForm.description.trim()
     ) {
-      setDriveMessage('Please fill title, company, date and CTC.')
+      setDriveMessage(
+        'Please fill title, company, date, CTC, eligibility criteria and description.',
+      )
       return
     }
 
@@ -224,9 +228,11 @@ export default function OpportunityDashboard({ user, onLogout }) {
       description: driveForm.description.trim(),
       dateLabel: driveForm.dateLabel.trim(),
       eligibilityCriteria: driveForm.eligibilityCriteria.trim(),
-      batch: driveForm.batch.trim(),
+      batch: String(driveForm.batch ?? '').trim(),
       select:
-        driveForm.status === 'completed' ? driveForm.select.trim() : '',
+        driveForm.status === 'completed'
+          ? String(driveForm.select ?? '').trim()
+          : '',
       ctc: driveForm.ctc.trim(),
       applicationLink: driveForm.applicationLink.trim(),
       jdGoogleDriveLink: driveForm.jdGoogleDriveLink.trim(),
@@ -713,6 +719,7 @@ export default function OpportunityDashboard({ user, onLogout }) {
           >
             <form
               className="admin-panel rounded-[28px] border border-line bg-paper/90 px-6 py-6 shadow-premium-soft md:px-8"
+              noValidate
               onSubmit={handleSaveDrive}
             >
               <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -806,26 +813,28 @@ export default function OpportunityDashboard({ user, onLogout }) {
                 <label className="text-sm text-ink-soft">
                   Batch
                   <input
-                    type="text"
+                    type="number"
+                    min="0"
                     value={driveForm.batch}
                     onChange={(event) =>
                       updateDriveField('batch', event.target.value)
                     }
                     className="premium-input"
-                    placeholder="2026 batch"
+                    placeholder="2026"
                   />
                 </label>
                 {driveForm.status === 'completed' && (
                   <label className="text-sm text-ink-soft">
-                    Select
+                    Selected students
                     <input
-                      type="text"
+                      type="number"
+                      min="0"
                       value={driveForm.select}
                       onChange={(event) =>
                         updateDriveField('select', event.target.value)
                       }
                       className="premium-input"
-                      placeholder="Selected students or count"
+                      placeholder="42"
                     />
                   </label>
                 )}
