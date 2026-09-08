@@ -578,7 +578,7 @@ export default function OpportunityDashboard({ user, onLogout }) {
       <div className="premium-backdrop pointer-events-none absolute inset-0" />
 
       <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-8 md:px-8 md:pt-10">
-        <header className="animate-fade-up overflow-hidden rounded-[32px] border border-line/80 bg-paper/85 shadow-premium backdrop-blur-xl">
+        <header className="animate-fade-up">
           <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
             <div className="px-6 py-7 md:px-8 md:py-9">
               <div className="flex flex-col gap-5 border-b border-line/80 pb-7 md:flex-row md:items-start md:justify-between">
