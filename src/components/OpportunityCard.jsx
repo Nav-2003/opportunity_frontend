@@ -234,7 +234,7 @@ export default function OpportunityCard({
   return (
     <>
       <article
-        className="opportunity-card group grid gap-8 rounded-[28px] border border-line bg-paper/90 px-6 py-7 shadow-premium-soft md:grid-cols-[190px_1fr_170px] md:gap-10 md:px-8 md:py-8"
+        className="opportunity-card group grid gap-8 rounded-xl border border-line bg-paper/90 px-6 py-7 shadow-premium-soft md:grid-cols-[190px_1fr_170px] md:gap-10 md:px-8 md:py-8"
         style={{ animationDelay: `${index * 90}ms` }}
       >
         <div className="flex flex-col justify-between gap-6">

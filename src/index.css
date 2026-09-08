@@ -61,21 +61,21 @@
 }
 
 .premium-backdrop {
-  background:
-    radial-gradient(ellipse 60% 36% at 10% -10%, rgba(109, 186, 138, 0.25), transparent 58%),
-    radial-gradient(ellipse 42% 34% at 92% 6%, rgba(185, 145, 79, 0.24), transparent 52%),
-    radial-gradient(ellipse 54% 44% at 50% 118%, rgba(16, 23, 39, 0.72), transparent 58%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 22%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.018) 1px,
+    transparent 1px
+  );
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
 }
 
 .admin-panel,
-.section-tile,
 .opportunity-card {
   position: relative;
 }
 
 .admin-panel::before,
-.section-tile::before,
 .opportunity-card::before {
   position: absolute;
   inset: 0;

@@ -577,67 +577,65 @@ export default function OpportunityDashboard({ user, onLogout }) {
     <div className="relative min-h-screen overflow-hidden bg-cream text-ink">
       <div className="premium-backdrop pointer-events-none absolute inset-0" />
 
-      <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-8 md:px-8 md:pt-10">
+      <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-5 md:px-8 md:pt-7">
         <header className="animate-fade-up">
-          <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="px-6 py-7 md:px-8 md:py-9">
-              <div className="flex flex-col gap-5 border-b border-line/80 pb-7 md:flex-row md:items-start md:justify-between">
-                <div>
-                  <p className="animate-draw-in text-[11px] font-medium uppercase tracking-[0.22em] text-gold">
-                    Placement command center
-                  </p>
-                  <h1 className="mt-3 max-w-2xl font-display text-5xl leading-[0.95] tracking-tight text-ink md:text-7xl">
-                    Campus placements
-                  </h1>
-                  <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-mute md:text-base">
-                    Welcome back,{' '}
-                    <span className="font-medium text-ink-soft">
-                      {user?.name}
-                    </span>
-                    . Track live drives, prepare for upcoming rounds, and keep
-                    the placement desk aligned from one polished workspace.
-                  </p>
-                </div>
-
-                <div className="flex shrink-0 items-center gap-3 self-start">
-                  <div className="rounded-2xl border border-line bg-cream-deep/80 px-4 py-3 backdrop-blur-sm">
-                    <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-mute-light">
-                      Signed in
-                    </p>
-                    <p className="mt-1 max-w-48 truncate text-sm font-medium text-ink-soft">
-                      {user?.email}
-                    </p>
-                    {user?.role && (
-                      <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.14em] text-live">
-                        {user.role}
-                      </p>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={onLogout}
-                    className="rounded-2xl border border-line bg-cream-deep px-4 py-3 text-sm font-medium text-ink-soft transition hover:border-ink/40 hover:bg-ink hover:text-cream"
-                  >
-                    Logout
-                  </button>
-                </div>
+          <div className="flex flex-col gap-5 border-b border-line pb-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold font-display text-2xl text-cream">
+                P
               </div>
+              <div>
+                <p className="text-sm font-semibold text-ink">Placement Portal</p>
+                <p className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-mute-light">
+                  Campus opportunity desk
+                </p>
+              </div>
+            </div>
 
-              <div className="mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="flex items-center justify-between gap-4 sm:justify-end">
+              <div className="min-w-0 text-right">
+                <p className="truncate text-sm font-medium text-ink-soft">{user?.email}</p>
+                {user?.role && (
+                  <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-live">
+                    {user.role}
+                  </p>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={onLogout}
+                className="rounded-lg border border-line px-3 py-2 text-sm font-medium text-ink-soft transition hover:border-mute hover:bg-cream-deep hover:text-ink"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+
+          <div className="grid gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_370px] lg:items-end lg:py-14">
+            <div>
+              <p className="animate-draw-in text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
+                Placement command center
+              </p>
+              <h1 className="mt-4 max-w-3xl font-display text-5xl leading-[0.95] text-ink sm:text-6xl md:text-7xl">
+                Good to see you, {user?.name?.split(' ')[0] || 'there'}.
+              </h1>
+              <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-mute md:text-base">
+                Keep track of active campus drives, upcoming application windows,
+                and the opportunities that need your attention next.
+              </p>
+
+              <div className="mt-9 grid grid-cols-2 divide-x divide-line sm:grid-cols-4">
                 {[
                   ['Live drives', liveCount],
                   ['Upcoming', upcomingCount],
                   ['Completed', completedCount],
                   ['Total posts', items.length],
                 ].map(([label, value]) => (
-                  <div
-                    key={label}
-                    className="rounded-2xl border border-line/80 bg-cream-deep/60 px-4 py-4"
-                  >
-                    <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-mute-light">
+                  <div key={label} className="px-4 first:pl-0 sm:px-5">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mute-light">
                       {label}
                     </p>
-                    <p className="mt-2 font-display text-4xl leading-none text-ink">
+                    <p className="mt-2 font-display text-4xl leading-none text-ink md:text-5xl">
                       {value}
                     </p>
                   </div>
@@ -645,24 +643,22 @@ export default function OpportunityDashboard({ user, onLogout }) {
               </div>
             </div>
 
-            <div className="relative min-h-72 overflow-hidden border-t border-line/80 lg:border-l lg:border-t-0">
+            <div className="relative min-h-64 overflow-hidden rounded-xl border border-line bg-paper">
               <img
                 src={heroImage}
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover opacity-75"
+                alt="Abstract lines representing active placement workflows"
+                className="absolute inset-0 h-full w-full object-cover opacity-70"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(21,20,18,0.92),rgba(21,20,18,0.35)),linear-gradient(0deg,rgba(12,11,10,0.85),transparent_65%)]" />
-              <div className="relative flex h-full min-h-72 flex-col justify-end p-6 md:p-8">
-                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-gold">
-                  This week
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,11,10,0.1),rgba(12,11,10,0.92))]" />
+              <div className="relative flex min-h-64 flex-col justify-end p-6">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-bright">
+                  In focus
                 </p>
-                <p className="mt-2 max-w-xs font-display text-3xl leading-tight text-ink">
-                  {liveCount} active drive{liveCount === 1 ? '' : 's'} need
-                  attention.
+                <p className="mt-2 font-display text-3xl leading-tight text-ink">
+                  {liveCount} active drive{liveCount === 1 ? '' : 's'} open now.
                 </p>
-                <p className="mt-3 max-w-sm text-sm leading-relaxed text-ink-soft/75">
-                  Review application windows, update CTC details, and post new
-                  campus opportunities as soon as they are confirmed.
+                <p className="mt-2 text-sm leading-relaxed text-ink-soft/80">
+                  Review the current pipeline and keep each opportunity moving.
                 </p>
               </div>
             </div>
@@ -670,7 +666,7 @@ export default function OpportunityDashboard({ user, onLogout }) {
         </header>
 
         <section
-          className="animate-fade-up mt-6 grid gap-4 md:grid-cols-3"
+          className="animate-fade-up flex overflow-x-auto border-y border-line"
           style={{ animationDelay: '60ms' }}
         >
           {SECTIONS.map((item) => {
@@ -681,32 +677,33 @@ export default function OpportunityDashboard({ user, onLogout }) {
                 key={item.id}
                 type="button"
                 onClick={() => setSection(item.id)}
-                className={`section-tile rounded-[24px] border px-5 py-5 text-left transition ${
+                className={`section-tile relative min-w-52 flex-1 px-5 py-5 text-left transition ${
                   section === item.id
-                    ? 'border-gold/55 bg-gold/10 shadow-premium-soft'
-                    : 'border-line bg-paper/70 hover:border-ink/25 hover:bg-paper'
+                    ? 'bg-cream-deep text-ink'
+                    : 'text-mute hover:bg-paper/60 hover:text-ink-soft'
                 }`}
               >
                 <span className="flex items-center justify-between gap-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-mute-light">
+                  <span className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${section === item.id ? 'text-gold' : 'text-mute-light'}`}>
                     {item.eyebrow}
                   </span>
                   <span
                     className={`rounded-full px-3 py-1 text-xs tabular-nums ${
                       section === item.id
                         ? 'bg-gold text-cream'
-                        : 'bg-cream-deep text-ink-soft'
+                        : 'bg-cream-deep text-mute'
                     }`}
                   >
                     {count}
                   </span>
                 </span>
-                <span className="mt-4 block font-display text-3xl text-ink">
+                <span className="mt-4 block font-display text-3xl text-current">
                   {item.label}
                 </span>
                 <span className="mt-2 block text-sm leading-relaxed text-mute">
                   {item.blurb}
                 </span>
+                {section === item.id && <span className="absolute inset-x-5 bottom-0 h-0.5 bg-gold" />}
               </button>
             )
           })}
